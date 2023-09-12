@@ -1,0 +1,2 @@
+# BasicSpringBootProject
+用于构建其它SpringBoot项目
