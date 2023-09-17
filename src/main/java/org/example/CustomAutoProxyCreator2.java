@@ -1,32 +1,17 @@
 package org.example;
 
 import org.aopalliance.intercept.MethodInterceptor;
-import org.springframework.aop.Advisor;
 import org.springframework.aop.TargetSource;
 import org.springframework.aop.framework.AdvisedSupport;
-import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.aop.framework.autoproxy.AbstractAutoProxyCreator;
-import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.stereotype.Component;
-
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-import java.lang.reflect.Proxy;
 
 @Component
 public class CustomAutoProxyCreator2 extends AbstractAutoProxyCreator {
     @Override
     protected Object wrapIfNecessary(Object bean, String beanName, Object cacheKey) {
         if(beanName.equals("myBean")) {
-            System.out.println("CustomAutoProxyCreator2 wrapIfNecessary " + beanName);
-            // 添加 MethodInterceptor，实现方法增强逻辑
-            MethodInterceptor methodInterceptor = invocation -> {
-                System.out.println("Before method execution 2");
-                Object result = invocation.proceed(); // 执行原始方法
-                System.out.println("After method execution 2");
-                return result;
-            };
             /**
              * 会把methodInterceptor这个advice添加到advised中，与后面advised.addAdvisor()重复
              * ProxyFactory proxyFactory = new ProxyFactory();
@@ -35,7 +20,20 @@ public class CustomAutoProxyCreator2 extends AbstractAutoProxyCreator {
              * bean = proxyFactory.getProxy();
              **/
             try {
-                AdvisedSupport advised = getAdvisedSupport(bean);
+                System.out.println("wrapIfNecessary2 " + beanName + " 代理前 hashcode" + bean.hashCode());
+                /**
+                 * 也就是被CustomAutoProxyCreator1代理过的对象的advised，返回大小为1
+                 * CustomAutoProxyCreator1的buildAdvisors(beanName, new Object[]{methodInterceptor});并不会给代理对象添加Advisors
+                 * 但是CustomAutoProxyCreator1的getAdvisedSupport操作给代理对象添加了Advisors
+                 */
+                AdvisedSupport advised = AdvisedSupportUtil.getAdvisedSupport(bean);
+                System.out.println("advised size " + advised.getAdvisors().length);
+                MethodInterceptor methodInterceptor = invocation -> {
+                    System.out.println("Before method execution 2");
+                    Object result = invocation.proceed(); // 执行原始方法
+                    System.out.println("After method execution 2");
+                    return result;
+                };
                 MethodInterceptor methodInterceptor2 = invocation -> {
                     System.out.println("Before method execution 22");
                     Object result = invocation.proceed(); // 执行原始方法
@@ -49,7 +47,17 @@ public class CustomAutoProxyCreator2 extends AbstractAutoProxyCreator {
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
-            return super.wrapIfNecessary(bean, beanName, cacheKey);
+            bean = super.wrapIfNecessary(bean, beanName, cacheKey);
+            System.out.println("wrapIfNecessary2 " + beanName + " 代理后 hashcode" + bean.hashCode());
+            AdvisedSupport advised = null;
+            try {
+                // 产生新的代理类，所以advised大小是0
+                advised = AdvisedSupportUtil.getAdvisedSupport(bean);
+                System.out.println("advised size " + advised.getAdvisors().length);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            return bean;
         }
         return bean;
     }
@@ -57,26 +65,6 @@ public class CustomAutoProxyCreator2 extends AbstractAutoProxyCreator {
     @Override
     protected Object[] getAdvicesAndAdvisorsForBean(Class<?> beanClass, String beanName, TargetSource customTargetSource) throws BeansException {
         return new Object[0];
-    }
-
-    /**
-     * 获取这个类的所有拦截器
-     * @param proxy
-     * @return
-     * @throws Exception
-     */
-    public AdvisedSupport getAdvisedSupport(Object proxy) throws Exception {
-        Object dynamicAdvisedInterceptor;
-        if (AopUtils.isJdkDynamicProxy(proxy)) {
-            dynamicAdvisedInterceptor = Proxy.getInvocationHandler(proxy);
-        } else {
-            Field h = proxy.getClass().getDeclaredField("CGLIB$CALLBACK_0");
-            h.setAccessible(true);
-            dynamicAdvisedInterceptor = h.get(proxy);
-        }
-        Field advised = dynamicAdvisedInterceptor.getClass().getDeclaredField("advised");
-        advised.setAccessible(true);
-        return (AdvisedSupport) advised.get(dynamicAdvisedInterceptor);
     }
 
 }
