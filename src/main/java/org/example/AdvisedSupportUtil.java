@@ -8,7 +8,6 @@ import java.lang.reflect.Proxy;
 
 /**
  * 获取这个对象代理类的所有advised
- * @param proxy
  * @return
  * @throws Exception
  */
