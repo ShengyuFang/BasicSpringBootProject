@@ -38,7 +38,7 @@ public class CustomAutoProxyCreator1 extends AbstractAutoProxyCreator {
         proxyFactory.addAdvice(methodInterceptor);
         buildAdvisors(beanName, new Object[]{methodInterceptor});
         bean = proxyFactory.getProxy();
-        bean = super.wrapIfNecessary(bean, beanName, cacheKey);
+//        bean = super.wrapIfNecessary(bean, beanName, cacheKey);
         System.out.println("wrapIfNecessary1 " + beanName + " 代理后 hashcode" + bean.hashCode());
         try {
             AdvisedSupport advised = AdvisedSupportUtil.getAdvisedSupport(bean);

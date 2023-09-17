@@ -22,9 +22,10 @@ public class CustomAutoProxyCreator2 extends AbstractAutoProxyCreator {
             try {
                 System.out.println("wrapIfNecessary2 " + beanName + " 代理前 hashcode" + bean.hashCode());
                 /**
-                 * 也就是被CustomAutoProxyCreator1代理过的对象的advised，返回大小为1
-                 * CustomAutoProxyCreator1的buildAdvisors(beanName, new Object[]{methodInterceptor});并不会给代理对象添加Advisors
-                 * 但是CustomAutoProxyCreator1的getAdvisedSupport操作给代理对象添加了Advisors
+                 * 也就是被CustomAutoProxyCreator1代理过的对象的advised
+                 * 删除CustomAutoProxyCreator1中bean = super.wrapIfNecessary(bean, beanName, cacheKey);
+                 * 后也就是被CustomAutoProxyCreator1代理过的对象的advised，返回大小为2
+                 * 删除前是1
                  */
                 AdvisedSupport advised = AdvisedSupportUtil.getAdvisedSupport(bean);
                 System.out.println("advised size " + advised.getAdvisors().length);
