@@ -41,6 +41,7 @@ public class CustomAutoProxyCreator2 extends AbstractAutoProxyCreator {
                     System.out.println("After method execution 22");
                     return result;
                 };
+                // 可以通过调整advised.addAdvisor顺序改变methodInterceptor执行顺序
                 advised.addAdvisor(0, buildAdvisors(beanName, new Object[]{methodInterceptor})[0]);
                 advised.addAdvisor(1, buildAdvisors(beanName, new Object[]{methodInterceptor2})[0]);
 //                advised.addAdvisor(0, buildAdvisors(beanName, new Object[]{methodInterceptor2})[0]);
