@@ -4,8 +4,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
-import java.util.Set;
-
 @SpringBootApplication
 public class Main {
     public static void main(String[] args) {
@@ -16,7 +14,8 @@ public class Main {
 
         //Mybean是单例
         //MyBean bean = context.getBean(MyBean.class); //会报not available
-        MyBeanInterface bean = context.getBean(MyBeanInterface.class);
+        MyBeanInterface bean = context.getBean("MyBean", MyBeanInterface.class);
+        context.getBean("MyBean2", MyBeanInterface.class);
         System.out.println();
         System.out.println();
         System.out.println();

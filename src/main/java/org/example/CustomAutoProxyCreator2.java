@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 public class CustomAutoProxyCreator2 extends AbstractAutoProxyCreator {
     @Override
     protected Object wrapIfNecessary(Object bean, String beanName, Object cacheKey) {
-        if(beanName.equals("myBean")) {
+        if(beanName.equals("MyBean") || beanName.equals("MyBean2")) {
             /**
              * 会把methodInterceptor这个advice添加到advised中，与后面advised.addAdvisor()重复
              * ProxyFactory proxyFactory = new ProxyFactory();
