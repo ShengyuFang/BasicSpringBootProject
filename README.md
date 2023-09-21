@@ -1,21 +1,21 @@
 项目启动过程中控制台打印  
-MyBean init
-wrapIfNecessary1 MyBean 代理前 hashcode3705025
-wrapIfNecessary1 MyBean 代理后 hashcode36463725
-advised size 1
-wrapIfNecessary2 MyBean 代理前 hashcode36463725
-advised size 2
-wrapIfNecessary2 MyBean 代理后 hashcode468496781
-advised size 0
-MyBean2 init
-wrapIfNecessary1 MyBean2 代理前 hashcode14997931
-wrapIfNecessary1 MyBean2 代理后 hashcode47756631
-advised size 1
-wrapIfNecessary2 MyBean2 代理前 hashcode47756631
-advised size 2
-wrapIfNecessary2 MyBean2 代理后 hashcode479789687
-advised size 0
-
+MyBean init 
+wrapIfNecessary1 MyBean 代理前 hashcode3705025  
+wrapIfNecessary1 MyBean 代理后 hashcode36463725  
+advised size 1  
+wrapIfNecessary2 MyBean 代理前 hashcode36463725  
+advised size 2  
+wrapIfNecessary2 MyBean 代理后 hashcode468496781  
+advised size 0  
+MyBean2 init  
+wrapIfNecessary1 MyBean2 代理前 hashcode14997931  
+wrapIfNecessary1 MyBean2 代理后 hashcode47756631  
+advised size 1  
+wrapIfNecessary2 MyBean2 代理前 hashcode47756631  
+advised size 2  
+wrapIfNecessary2 MyBean2 代理后 hashcode479789687  
+advised size 0  
+  
 项目启动后控制台打印  
 Before method execution 2  
 Before method execution 22  
