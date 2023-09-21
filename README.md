@@ -1,5 +1,5 @@
 项目启动过程中控制台打印  
-MyBean init 
+MyBean init  
 wrapIfNecessary1 MyBean 代理前 hashcode3705025  
 wrapIfNecessary1 MyBean 代理后 hashcode36463725  
 advised size 1  
